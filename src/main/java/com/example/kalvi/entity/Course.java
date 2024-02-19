@@ -16,7 +16,7 @@ public class Course {
     private String description;
     private LocalDateTime lastUpdated;
     private LocalDateTime createdAt;
-    private Long createdBy;
+    private String createdBy;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Rating> ratings;
@@ -69,11 +69,11 @@ public class Course {
         this.createdAt = createdAt;
     }
 
-    public Long getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
