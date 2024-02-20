@@ -26,15 +26,20 @@ public class CourseService {
     }
 
     public Course createCourse(Course course) {
-        for(Module module : course.getModules()){
-            module.setCourse(course);
-            for(Topic topic : module.getTopics()){
-                topic.setModule(module);
+        if(course.getModules() != null){ // Add modules in-case if its persisted with course
+            for(Module module : course.getModules()){
+                module.setCourse(course);
+                for(Topic topic : module.getTopics()){
+                    topic.setModule(module);
+                }
             }
         }
-        for(Rating rating : course.getRatings()){
-            rating.setCourse(course);
+        if(course.getRatings() !=null){ // Add ratings in-case if its persisted with course
+            for(Rating rating : course.getRatings()){
+                rating.setCourse(course);
+            }
         }
+
         return courseRepository.save(course);
     }
 
