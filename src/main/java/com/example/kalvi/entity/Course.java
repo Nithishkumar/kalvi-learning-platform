@@ -3,7 +3,9 @@ package com.example.kalvi.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Course {
@@ -28,6 +30,12 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Module> modules;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Quiz> quizzes = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Assignment> assignments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -107,5 +115,21 @@ public class Course {
 
     public void setModules(List<Module> modules) {
         this.modules = modules;
+    }
+
+    public Set<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(Set<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
+
+    public Set<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(Set<Assignment> assignments) {
+        this.assignments = assignments;
     }
 }

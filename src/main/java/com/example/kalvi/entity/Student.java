@@ -1,5 +1,6 @@
 package com.example.kalvi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,12 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+    @JsonIgnoreProperties("course")
     private Set<Course> courses = new HashSet<>();
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("student")
+    private Set<StudentProgress> progress = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -79,5 +85,13 @@ public class Student {
 
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
+    }
+
+    public Set<StudentProgress> getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Set<StudentProgress> progress) {
+        this.progress = progress;
     }
 }
