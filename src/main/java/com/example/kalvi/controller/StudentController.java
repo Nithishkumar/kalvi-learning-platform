@@ -2,7 +2,6 @@ package com.example.kalvi.controller;
 
 import com.example.kalvi.dto.StudentProgressDTO;
 import com.example.kalvi.entity.*;
-import com.example.kalvi.entity.Module;
 import com.example.kalvi.exception.*;
 import com.example.kalvi.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
-public class KalviController {
+@RequestMapping("/api/student")
+public class StudentController {
 
     @Autowired
     private CourseService courseService;
@@ -34,25 +33,8 @@ public class KalviController {
     @Autowired
     private AssignmentService assignmentService;
 
-    @GetMapping("/courses")
-    public ResponseEntity<List<Course>> getAllCourses() {
-        List<Course> courses = courseService.getAllCourses();
-        return new ResponseEntity<>(courses, HttpStatus.OK);
-    }
 
-    @PostMapping("/courses")
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-        Course createdCourse = courseService.createCourse(course);
-        return new ResponseEntity<>(createdCourse, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/{courseId}/modules")
-    public ResponseEntity<Course> addModuleToCourse(@PathVariable Long courseId, @RequestBody Module module) {
-        Course addedModule = courseService.addModuleToCourse(courseId, module);
-        return new ResponseEntity<>(addedModule, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/student")
+    @PostMapping()
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         // Encrypt the password before saving
         String encryptedPassword = passwordEncoder.encode(student.getPassword());
@@ -68,20 +50,7 @@ public class KalviController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{courseId}/quizzes")
-    public ResponseEntity<Quiz> addQuizToCourse(@PathVariable Long courseId, @RequestBody Quiz quiz) {
-        Quiz addedQuiz = courseService.addQuizToCourse(courseId, quiz);
-        return new ResponseEntity<>(addedQuiz, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/{courseId}/assignments")
-    public ResponseEntity<Assignment> addAssignmentToCourse(@PathVariable Long courseId, @RequestBody Assignment assignment) {
-        Assignment addedAssignment = courseService.addAssignmentToCourse(courseId, assignment);
-        return new ResponseEntity<>(addedAssignment, HttpStatus.CREATED);
-    }
-
-
-    @PostMapping("/students/{studentId}/courses/{courseId}/quizzes/{quizId}/submit")
+    @PostMapping("/{studentId}/courses/{courseId}/quizzes/{quizId}/submit")
     public ResponseEntity<String> submitQuiz(@PathVariable Long studentId,
                                              @PathVariable Long courseId,
                                              @PathVariable Long quizId,
@@ -104,7 +73,7 @@ public class KalviController {
     }
 
     // Endpoint to get student progress by student ID
-    @GetMapping("/students/{studentId}/progress")
+    @GetMapping("/{studentId}/progress")
     public ResponseEntity<List<StudentProgressDTO>> getStudentProgress(@PathVariable Long studentId) {
         List<StudentProgress> studentProgressList = studentProgressService.getAllStudentProgress(studentId);
 
@@ -115,7 +84,7 @@ public class KalviController {
         return ResponseEntity.ok(studentProgressDTOList);
     }
 
-    @PostMapping("/students/{studentId}/courses/{courseId}/assignments/{assignmentId}/submit")
+    @PostMapping("/{studentId}/courses/{courseId}/assignments/{assignmentId}/submit")
     public ResponseEntity<String> submitAssignment(@PathVariable Long studentId,
                                                    @PathVariable Long courseId,
                                                    @PathVariable Long assignmentId,

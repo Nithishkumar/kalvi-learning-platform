@@ -1,7 +1,9 @@
 package com.example.kalvi.service;
 
 import com.example.kalvi.entity.*;
+import com.example.kalvi.exception.CourseNotFoundException;
 import com.example.kalvi.exception.StudentAlreadyEnrolledException;
+import com.example.kalvi.exception.StudentNotFoundException;
 import com.example.kalvi.exception.StudentProgressNotFoundException;
 import com.example.kalvi.repository.*;
 import jakarta.transaction.Transactional;
@@ -33,9 +35,9 @@ public class StudentService {
     @Transactional
     public void enrollForCourse(Long studentId, Long courseId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("Student not found"));
+                .orElseThrow(() -> new StudentNotFoundException("Student not found"));
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
+                .orElseThrow(() -> new CourseNotFoundException("Course not found"));
 
         // Add the course to the student's list of courses
 

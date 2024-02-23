@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="MyTestSuite">
+<!--    <listeners>-->
+<!--        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>-->
+<!--    </listeners>-->
+    <test name="MyTest">
+        <classes>
+            <class name="com.kalvi.tests.service.CourseServiceTest"/>
+        </classes>
+    </test>
+</suite>
