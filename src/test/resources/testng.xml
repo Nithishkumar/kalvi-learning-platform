@@ -4,8 +4,8 @@
 <!--        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>-->
 <!--    </listeners>-->
     <test name="MyTest">
-        <classes>
-            <class name="com.kalvi.tests.service.CourseServiceTest"/>
-        </classes>
+        <packages>
+            <package name="com.kalvi.tests"/>
+        </packages>
     </test>
 </suite>

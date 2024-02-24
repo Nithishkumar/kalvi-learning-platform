@@ -35,13 +35,13 @@ public class StudentController {
 
 
     @PostMapping()
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+    public ResponseEntity<String> createStudent(@RequestBody Student student) {
         // Encrypt the password before saving
         String encryptedPassword = passwordEncoder.encode(student.getPassword());
         student.setPassword(encryptedPassword);
 
         Student createdStudent = studentService.createStudent(student);
-        return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created quiz with id " + createdStudent.getId().toString());
     }
 
     @PostMapping("/enrollments")

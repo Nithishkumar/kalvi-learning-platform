@@ -9,6 +9,7 @@ import com.example.kalvi.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,24 @@ public class CourseService {
         Optional<Course> optionalCourse = courseRepository.findById(courseId);
         if (optionalCourse.isPresent()) {
             Course course = optionalCourse.get();
+            if(course.getModules() == null ) {
+                course.setModules(new ArrayList<>());
+            }
             course.getModules().add(module);
+            return courseRepository.save(course);
+        } else {
+            throw new IllegalArgumentException("Course not found with id: " + courseId);
+        }
+    }
+
+    public Course addRatingToCourse(Long courseId, Rating rating) {
+        Optional<Course> optionalCourse = courseRepository.findById(courseId);
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+            if(course.getRatings() == null){
+                course.setRatings(new ArrayList<>());
+            }
+            course.getRatings().add(rating);
             return courseRepository.save(course);
         } else {
             throw new IllegalArgumentException("Course not found with id: " + courseId);

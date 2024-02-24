@@ -24,26 +24,32 @@ public class CourseController {
     }
 
     @PostMapping()
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
+    public ResponseEntity<String> createCourse(@RequestBody Course course) {
         Course createdCourse = courseService.createCourse(course);
-        return new ResponseEntity<>(createdCourse, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created course with with id " + createdCourse.getId().toString());
     }
 
     @PostMapping("/{courseId}/modules")
-    public ResponseEntity<Course> addModuleToCourse(@PathVariable Long courseId, @RequestBody Module module) {
+    public ResponseEntity<String> addModuleToCourse(@PathVariable Long courseId, @RequestBody Module module) {
         Course addedModule = courseService.addModuleToCourse(courseId, module);
-        return new ResponseEntity<>(addedModule, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created module with id " + addedModule.getId().toString());
+    }
+
+    @PostMapping("/{courseId}/ratings")
+    public ResponseEntity<String> addRatingToCourse(@PathVariable Long courseId, @RequestBody Rating rating) {
+        Course addedModule = courseService.addRatingToCourse(courseId, rating);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created rating with id " + addedModule.getId().toString());
     }
 
     @PostMapping("/{courseId}/quizzes")
-    public ResponseEntity<Quiz> addQuizToCourse(@PathVariable Long courseId, @RequestBody Quiz quiz) {
+    public ResponseEntity<String> addQuizToCourse(@PathVariable Long courseId, @RequestBody Quiz quiz) {
         Quiz addedQuiz = courseService.addQuizToCourse(courseId, quiz);
-        return new ResponseEntity<>(addedQuiz, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created quiz with id " + addedQuiz.getId().toString());
     }
 
     @PostMapping("/{courseId}/assignments")
-    public ResponseEntity<Assignment> addAssignmentToCourse(@PathVariable Long courseId, @RequestBody Assignment assignment) {
+    public ResponseEntity<String> addAssignmentToCourse(@PathVariable Long courseId, @RequestBody Assignment assignment) {
         Assignment addedAssignment = courseService.addAssignmentToCourse(courseId, assignment);
-        return new ResponseEntity<>(addedAssignment, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created assignment with id " + addedAssignment.getId().toString());
     }
 }

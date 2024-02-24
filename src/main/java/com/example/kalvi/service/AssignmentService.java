@@ -42,8 +42,8 @@ public class AssignmentService {
                 });
 
         // Check if the student is enrolled in the course
-        if (!student.getCourses().contains(course)) {
-            throw new IllegalStateException("Student is not enrolled in the course.");
+        if (!student.getCourses().contains(course)){
+            throw new StudentNotEnrolledToCourseException("Student is not enrolled in the course.");
         }
 
         if(assignmentAnswer == null || assignmentAnswer.equals("")){

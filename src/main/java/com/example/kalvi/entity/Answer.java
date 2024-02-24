@@ -4,6 +4,12 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Answer {
+    public Answer() {
+    }
+
+    public Answer(String answer) {
+        this.answer = answer;
+    }
 
     private String answer;
 
