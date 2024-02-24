@@ -5,12 +5,14 @@ import com.example.kalvi.dto.QuizProgressDTO;
 import com.example.kalvi.dto.StudentProgressDTO;
 import com.example.kalvi.entity.StudentProgress;
 import com.example.kalvi.repository.StudentProgressRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class StudentProgressService {
     @Autowired
     private StudentProgressRepository studentProgressRepository;

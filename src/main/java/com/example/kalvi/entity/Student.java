@@ -18,17 +18,15 @@ public class Student {
     private String password;
     private String profilePicture;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_course",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    @JsonIgnoreProperties("course")
     private Set<Course> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("student")
     private Set<StudentProgress> progress = new HashSet<>();
 
     public Long getId() {

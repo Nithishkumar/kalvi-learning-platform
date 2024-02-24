@@ -20,6 +20,9 @@ public class Course {
     private LocalDateTime createdAt;
     private String createdBy;
 
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
+    private Set<Student> students = new HashSet<>();
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 

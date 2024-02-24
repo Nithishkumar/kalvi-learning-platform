@@ -12,11 +12,11 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
+        UserDetails user = User.withUsername("user")
+                .password(passwordEncoder().encode("password"))
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);
@@ -31,9 +31,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
-                .anyRequest().permitAll(); // Allow all requests without authentication
-        http.headers().frameOptions().disable();
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                // Permit POST requests to /api/students for authenticated users
+                                .requestMatchers( "/api/students/**").authenticated()
+                                // Permit all other requests without authentication
+                                .anyRequest().permitAll()
+                )
+                        .httpBasic();
+                        http.headers().frameOptions().disable();
+
         return http.build();
     }
 }

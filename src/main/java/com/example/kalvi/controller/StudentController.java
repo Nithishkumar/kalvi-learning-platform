@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/student")
+@RequestMapping("/api/students")
 public class StudentController {
 
     @Autowired
@@ -65,7 +65,7 @@ public class StudentController {
             quizService.submitQuiz(studentId, courseId, quizId, answers);
             return ResponseEntity.ok("Quiz submitted successfully");
         } catch (CourseNotFoundException | StudentNotFoundException |
-                 QuizNotFoundException | InvalidQuizSubmissionException e) {
+                 QuizNotFoundException | InvalidQuizSubmissionException |StudentNotEnrolledException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while submitting the quiz");
