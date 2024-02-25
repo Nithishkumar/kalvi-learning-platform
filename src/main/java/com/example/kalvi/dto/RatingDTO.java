@@ -1,24 +1,12 @@
-package com.example.kalvi.entity;
+package com.example.kalvi.dto;
 
-import com.example.kalvi.entity.Course;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-public class Rating {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
+public class RatingDTO {
     private Long id;
 
     private int rating;
     private LocalDateTime createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    @Schema(hidden = true)
-    private Course course;
 
     public Long getId() {
         return id;
@@ -42,13 +30,5 @@ public class Rating {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
     }
 }

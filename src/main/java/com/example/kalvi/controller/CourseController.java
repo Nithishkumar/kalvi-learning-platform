@@ -1,5 +1,6 @@
 package com.example.kalvi.controller;
 
+import com.example.kalvi.dto.CourseDTO;
 import com.example.kalvi.entity.*;
 import com.example.kalvi.entity.Module;
 import com.example.kalvi.service.*;
@@ -18,8 +19,8 @@ public class CourseController {
 
 
     @GetMapping()
-    public ResponseEntity<List<Course>> getAllCourses() {
-        List<Course> courses = courseService.getAllCourses();
+    public ResponseEntity<List<CourseDTO>> getAllCourses() {
+        List<CourseDTO> courses = courseService.getAllCourses();
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 

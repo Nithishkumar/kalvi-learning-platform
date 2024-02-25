@@ -1,6 +1,6 @@
 package com.example.kalvi.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +10,7 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     private Long id;
 
     private String name;
@@ -24,9 +25,11 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+    @Schema(hidden = true)
     private Set<Course> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @Schema(hidden = true)
     private Set<StudentProgress> progress = new HashSet<>();
 
     public Long getId() {

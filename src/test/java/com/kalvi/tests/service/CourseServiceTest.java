@@ -1,5 +1,6 @@
 package com.kalvi.tests.service;
 
+import com.example.kalvi.dto.*;
 import com.example.kalvi.entity.*;
 import com.example.kalvi.entity.Module;
 import com.example.kalvi.exception.CourseNotFoundException;
@@ -13,9 +14,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
@@ -40,7 +40,7 @@ public class CourseServiceTest {
     public void testGetAllCourses() {
         List<Course> courses = new ArrayList<>();
         when(courseRepository.findAll()).thenReturn(courses);
-        List<Course> result = courseService.getAllCourses();
+        List<CourseDTO> result = courseService.getAllCourses();
         verify(courseRepository).findAll();
         assertEquals(result.size(), courses.size());
     }
@@ -53,6 +53,114 @@ public class CourseServiceTest {
         verify(courseRepository).save(course);
         assertEquals(result, course);
     }
+
+    @Test(description = "Test mapping from Course entity to CourseDTO")
+    public void testMapEntityToDTO() {
+        // Create a sample Course entity
+        Course course = createSampleCourseEntity();
+
+        // Call mapEntityToDTO method to map the entity to DTO
+        List<CourseDTO> courseDTOList = new ArrayList<>();
+        CourseService courseService = new CourseService();
+        courseService.mapEntityToDTO(List.of(course), courseDTOList);
+
+        // Assert that the mapped DTO object has the correct properties
+        assertEquals(courseDTOList.size(), 1);
+        CourseDTO courseDTO = courseDTOList.get(0);
+        assertEquals(courseDTO.getCourseName(), "Kalvi Course");
+        assertEquals(courseDTO.getId(), 1L);
+        assertEquals(courseDTO.getPrice(), 68);
+        assertEquals(courseDTO.getDescription(), "Kalvi Description");
+        assertEquals(courseDTO.getLanguages().get(0), "English");
+
+        // Assert that ratings are mapped correctly
+        assertEquals(courseDTO.getRatings().size(), 1);
+        RatingDTO ratingDTO = courseDTO.getRatings().get(0);
+        assertEquals(ratingDTO.getId(), 1L);
+        assertEquals(ratingDTO.getRating(), 4);
+
+        // Assert that modules are mapped correctly
+        assertEquals(courseDTO.getModules().size(), 1);
+        ModuleDTO moduleDTO = courseDTO.getModules().get(0);
+        assertEquals(moduleDTO.getId(), 1L);
+        assertEquals(moduleDTO.getName(), "Sample Module");
+        assertEquals(moduleDTO.getDuration(), 30);
+
+        // Assert that topics are mapped correctly
+        assertEquals(moduleDTO.getTopics().size(), 1);
+        TopicDTO topicDTO = moduleDTO.getTopics().get(0);
+        assertEquals(topicDTO.getId(), 1L);
+        assertEquals(topicDTO.getName(), "Sample Topic");
+        assertEquals(topicDTO.getVideoUrls(), List.of("url1", "url2"));
+        assertEquals(topicDTO.getData().get(0), "Sample Data");
+
+        // Assert that quizzes are mapped correctly
+        assertEquals(courseDTO.getQuizzes().size(), 1);
+
+
+        // Assert that assignments are mapped correctly
+        assertEquals(courseDTO.getAssignments().size(), 1);
+
+    }
+
+    // Helper method to create a sample Course entity for testing
+    private Course createSampleCourseEntity() {
+        Course course = new Course();
+        course.setId(1L);
+        course.setCourseName("Kalvi Course");
+        course.setPrice(68);
+        course.setDescription("Kalvi Description");
+        course.setLanguages(Arrays.asList("English","Tamil"));
+
+        // Add a sample rating
+        Rating rating = new Rating();
+        rating.setId(1L);
+        rating.setRating(4);
+        rating.setCreatedAt(LocalDateTime.of(2024, 2, 25, 10, 15, 30));
+        List<Rating> ratings = new ArrayList<>();
+        ratings.add(rating);
+        course.setRatings(ratings);
+
+        // Add a sample module
+        Module module = new Module();
+        module.setId(1L);
+        module.setName("Sample Module");
+        module.setDuration(30);
+
+        // Add a sample topic to the module
+        Topic topic = new Topic();
+        topic.setId(1L);
+        topic.setName("Sample Topic");
+        topic.setVideoUrls(List.of("url1", "url2"));
+        topic.setData(Arrays.asList("Sample Data"));
+        List<Topic> topics = new ArrayList<>();
+        topics.add(topic);
+        module.setTopics(topics);
+        List<Module> modules = new ArrayList<>();
+        modules.add(module);
+        course.setModules(modules);
+
+        // Add a sample quiz
+        Quiz quiz = new Quiz();
+        quiz.setId(1L);
+        quiz.setTitle("Sample Quiz");
+        Question question = new Question();
+        question.setQuestionText("Who is the father of computer");
+        question.setOptions(Arrays.asList("Charles","Venat","Madhan"));
+        List<Question> questionList = new ArrayList<>();
+        questionList.add(question);
+        quiz.setQuestions(questionList);
+        course.getQuizzes().add(quiz);
+
+        // Add a sample assignment
+        Assignment assignment = new Assignment();
+        assignment.setId(1L);
+        assignment.setAssignmentTitle("Sample Assignment");
+        course.getAssignments().add(assignment);
+
+        return course;
+    }
+
 
     @Test
     public void testAddModuleToCourse() {

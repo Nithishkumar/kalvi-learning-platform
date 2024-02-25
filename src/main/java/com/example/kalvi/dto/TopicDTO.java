@@ -1,28 +1,16 @@
-package com.example.kalvi.entity;
+package com.example.kalvi.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
 import java.util.List;
 
-@Entity
-public class Topic {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
+public class TopicDTO {
+
     private Long id;
 
     private String name;
 
-    @ElementCollection
     private List<String> data;
 
-    @ElementCollection
     private List<String> videoUrls;
-
-    @ManyToOne
-    @JoinColumn(name = "module_id")
-    @Schema(hidden = true)
-    private Module module;
 
     public Long getId() {
         return id;
@@ -54,13 +42,5 @@ public class Topic {
 
     public void setVideoUrls(List<String> videoUrls) {
         this.videoUrls = videoUrls;
-    }
-
-    public Module getModule() {
-        return module;
-    }
-
-    public void setModule(Module module) {
-        this.module = module;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.kalvi.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -7,12 +8,14 @@ import java.util.List;
 public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     private Long id;
 
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @Schema(hidden = true)
     private Course course;
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)

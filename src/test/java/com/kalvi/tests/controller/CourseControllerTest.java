@@ -1,6 +1,7 @@
 package com.kalvi.tests.controller;
 
 import com.example.kalvi.controller.CourseController;
+import com.example.kalvi.dto.CourseDTO;
 import com.example.kalvi.entity.*;
 import com.example.kalvi.entity.Module;
 import com.example.kalvi.service.CourseService;
@@ -34,10 +35,10 @@ public class CourseControllerTest {
 
     @Test
     public void testGetAllCourses() {
-        List<Course> courses = new ArrayList<>();
+        List<CourseDTO> courses = new ArrayList<>();
         when(courseService.getAllCourses()).thenReturn(courses);
 
-        ResponseEntity<List<Course>> response = courseController.getAllCourses();
+        ResponseEntity<List<CourseDTO>> response = courseController.getAllCourses();
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), courses);

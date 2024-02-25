@@ -41,7 +41,7 @@ public class StudentController {
         student.setPassword(encryptedPassword);
 
         Student createdStudent = studentService.createStudent(student);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Created quiz with id " + createdStudent.getId().toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created student with id " + createdStudent.getId().toString());
     }
 
     @PostMapping("/enrollments")

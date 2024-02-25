@@ -1,15 +1,18 @@
 package com.example.kalvi.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
 public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @Schema(hidden = true)
     private Course course;
 
     private String assignmentTitle;

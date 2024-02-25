@@ -65,7 +65,7 @@ public class StudentControllerTest {
         ResponseEntity<String> response = studentController.createStudent(student);
 
         assertEquals(response.getStatusCode(), HttpStatus.CREATED);
-        assertEquals(response.getBody(), "Created quiz with id " + 1L);
+        assertEquals(response.getBody(), "Created student with id " + 1L);
     }
 
     @Test

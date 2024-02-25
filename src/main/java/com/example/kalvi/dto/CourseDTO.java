@@ -1,51 +1,36 @@
-package com.example.kalvi.entity;
+package com.example.kalvi.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
+public class CourseDTO {
+
+    public CourseDTO(){
+        this.modules = new ArrayList<>();
+        this.languages = new ArrayList<>();
+        this.assignments = new HashSet<>();
+        this.quizzes = new HashSet<>();
+        this.ratings = new ArrayList<>();
+    }
+    @JsonIgnore
     private Long id;
 
     private String courseName;
-    @Lob
     private String description;
     private LocalDateTime lastUpdated;
     private LocalDateTime createdAt;
     private String createdBy;
-
-    @Schema(hidden = true)
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
-    private Set<Student> students = new HashSet<>();
-
-    @Schema(hidden = true)
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Rating> ratings;
-
-    @ElementCollection
+    private List<RatingDTO> ratings;
     private List<String> languages;
-
     private double price;
-
-    @Schema(hidden = true)
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Module> modules;
-
-    @Schema(hidden = true)
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<Quiz> quizzes = new HashSet<>();
-
-    @Schema(hidden = true)
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private Set<Assignment> assignments = new HashSet<>();
+    private List<ModuleDTO> modules;
+    private Set<QuizDTO> quizzes;
+    private Set<AssignmentDTO> assignments;
 
     public Long getId() {
         return id;
@@ -95,11 +80,11 @@ public class Course {
         this.createdBy = createdBy;
     }
 
-    public List<Rating> getRatings() {
+    public List<RatingDTO> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<Rating> ratings) {
+    public void setRatings(List<RatingDTO> ratings) {
         this.ratings = ratings;
     }
 
@@ -119,27 +104,27 @@ public class Course {
         this.price = price;
     }
 
-    public List<Module> getModules() {
+    public List<ModuleDTO> getModules() {
         return modules;
     }
 
-    public void setModules(List<Module> modules) {
+    public void setModules(List<ModuleDTO> modules) {
         this.modules = modules;
     }
 
-    public Set<Quiz> getQuizzes() {
+    public Set<QuizDTO> getQuizzes() {
         return quizzes;
     }
 
-    public void setQuizzes(Set<Quiz> quizzes) {
+    public void setQuizzes(Set<QuizDTO> quizzes) {
         this.quizzes = quizzes;
     }
 
-    public Set<Assignment> getAssignments() {
+    public Set<AssignmentDTO> getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(Set<Assignment> assignments) {
+    public void setAssignments(Set<AssignmentDTO> assignments) {
         this.assignments = assignments;
     }
 }
