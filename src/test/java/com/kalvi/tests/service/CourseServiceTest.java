@@ -189,6 +189,39 @@ public class CourseServiceTest {
         Course result1 = courseService.addModuleToCourse(1L, module);
         assertTrue(result1.getModules().contains(module));
     }
+    @Test
+    public void testAddModuleToCourseWithTopic() {
+        Course course = new Course();
+        course.setId(1L);
+        Module module = new Module();
+        ArrayList<Module> modules = new ArrayList<>();
+        modules.add(module);
+        course.setModules(modules);
+        Topic topic = new Topic();
+        topic.setId(1L);
+        topic.setModule(module);
+        List<Topic> topics = new ArrayList<>();
+        topics.add(topic);
+        module.setTopics(topics);
+
+        when(courseRepository.findById(anyLong())).thenReturn(Optional.of(course));
+        when(courseRepository.save(course)).thenReturn(course);
+
+
+        Course result = courseService.addModuleToCourse(1L, module);
+
+        assertTrue(result.getModules().contains(module));
+        verify(courseRepository, times(1)).save(course);
+
+        // test course without ratings in it : Scenario for first time
+        Course course1 = new Course();
+        course1.setId(1L);
+        when(courseRepository.findById(anyLong())).thenReturn(Optional.of(course1));
+        when(courseRepository.save(course1)).thenReturn(course1);
+
+        Course result1 = courseService.addModuleToCourse(1L, module);
+        assertTrue(result1.getModules().contains(module));
+    }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddModuleToCourseNotFound() {
